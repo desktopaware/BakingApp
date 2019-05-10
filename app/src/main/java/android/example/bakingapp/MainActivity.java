@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
@@ -19,14 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-
+    private RecyclerView recyclerView;
     private Retrofit retrofit;
     private API api;
     private final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
     private List<Recipes> recipes;
     private BakingAdapter bakingAdapter;
-    private Context context;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         api = retrofit.create(API.class);
 
-        Call<List<Recipes>> recipe = api.getRecipes();
+        Call<List<Recipes>> recipe = api.getAllRecipes();
 
         recipe.enqueue(new Callback<List<Recipes>>() {
             @Override
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
                 recipes = response.body();
 
-                //recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 bakingAdapter = new BakingAdapter(MainActivity.this, recipes);
                 recyclerView.setAdapter(bakingAdapter);
                 bakingAdapter.notifyDataSetChanged();

@@ -1,6 +1,9 @@
 package android.example.bakingapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,9 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeInformationFragment extends Fragment {
+public class RecipeInformationFragment extends Fragment implements StepsAdapter.OnStepListener{
 
     private RecyclerView recycler_view_ingredients;
     private RecyclerView recycler_view_steps;
@@ -21,6 +25,7 @@ public class RecipeInformationFragment extends Fragment {
     private IngredientsAdapter ingredientsAdapter;
     private StepsAdapter stepsAdapter;
     private Recipes recipes;
+    Context context;
 
     @Nullable
     @Override
@@ -42,12 +47,20 @@ public class RecipeInformationFragment extends Fragment {
 
         steps = recipes.getSteps();
 
-        stepsAdapter = new StepsAdapter(steps);
+        stepsAdapter = new StepsAdapter(context, steps, this);
         recycler_view_steps.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler_view_steps.setAdapter(stepsAdapter);
         stepsAdapter.notifyDataSetChanged();
 
         return view;
 
+    }
+
+    @Override
+    public void onStepClick(int position) {
+        Intent intent = new Intent(getActivity(), StepsDetails.class);
+        intent.putExtra("position", position);
+        intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
+        startActivity(intent);
     }
 }
