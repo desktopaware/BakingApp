@@ -32,7 +32,7 @@ public class StepsInformationFragment extends Fragment {
     private SimpleExoPlayer exoPlayer;
     private Button next, back;
     private List<Steps> steps;
-    private int position;
+    private int position, nextPosition, backPosition;
     boolean playerStatus;
     long playerPosition;
     String url;
@@ -67,6 +67,9 @@ public class StepsInformationFragment extends Fragment {
         steps = getArguments().getParcelableArrayList("steps");
         position = getArguments().getInt("position");
 
+        nextPosition = position + 1;
+        backPosition = position - 1;
+
         desctriptionTv.setText(steps.get(position).getDescription());
 
         Steps step = steps.get(position);
@@ -79,7 +82,7 @@ public class StepsInformationFragment extends Fragment {
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), StepsDetails.class);
                     intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
-                    intent.putExtra("position", position-1);
+                    intent.putExtra("position", backPosition);
                     startActivity(intent);
                     getActivity().finish();
 
@@ -95,7 +98,7 @@ public class StepsInformationFragment extends Fragment {
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), StepsDetails.class);
                     intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
-                    intent.putExtra("position", position+1);
+                    intent.putExtra("position", nextPosition);
                     startActivity(intent);
                     getActivity().finish();
 

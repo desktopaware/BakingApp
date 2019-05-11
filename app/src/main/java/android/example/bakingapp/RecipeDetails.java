@@ -1,17 +1,19 @@
 package android.example.bakingapp;
 
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
-import java.util.List;
+import com.google.gson.Gson;
 
 public class RecipeDetails extends AppCompatActivity {
 
     private Recipes recipes;
 
-    List<Ingredients> ingredients;
-    List<Steps> steps;
+    /*List<Ingredients> ingredients;
+    List<Steps> steps;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +22,8 @@ public class RecipeDetails extends AppCompatActivity {
 
         recipes = getIntent().getParcelableExtra("recipe");
 
-        ingredients = recipes.getIngredients();
-        steps = recipes.getSteps();
+        /*ingredients = recipes.getIngredients();
+        steps = recipes.getSteps();*/
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
