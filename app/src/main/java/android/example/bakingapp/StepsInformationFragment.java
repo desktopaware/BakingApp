@@ -33,12 +33,13 @@ public class StepsInformationFragment extends Fragment {
     private Button next, back;
     private List<Steps> steps;
     private int position, nextPosition, backPosition;
+    private boolean mTwoPane;
     boolean playerStatus;
     long playerPosition;
     String url;
 
     public StepsInformationFragment(){
-        setRetainInstance(true);
+
     }
 
 
@@ -47,7 +48,7 @@ public class StepsInformationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view =inflater.inflate(R.layout.fragment_steps_information, container, false);
-
+        setRetainInstance(true);
         if (savedInstanceState != null) {
             playerStatus = savedInstanceState.getBoolean("playerState");
             playerPosition = savedInstanceState.getLong("playerPosition");
@@ -66,6 +67,7 @@ public class StepsInformationFragment extends Fragment {
 
         steps = getArguments().getParcelableArrayList("steps");
         position = getArguments().getInt("position");
+        mTwoPane = getArguments().getBoolean("mTwoPane");
 
         nextPosition = position + 1;
         backPosition = position - 1;
@@ -74,7 +76,7 @@ public class StepsInformationFragment extends Fragment {
 
         Steps step = steps.get(position);
 
-        if(position == 0){
+        if(position == 0 || mTwoPane){
             back.setVisibility(View.GONE);
         }else {
             back.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +92,7 @@ public class StepsInformationFragment extends Fragment {
             });
         }
 
-        if(position == steps.size()-1){
+        if(position == steps.size()-1 || mTwoPane){
             next.setVisibility(View.GONE);
         }else {
             next.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +109,11 @@ public class StepsInformationFragment extends Fragment {
         }
 
         if(step.getVideoURL().equals("")){
+
             playerView.setVisibility(View.GONE);
+
         }else {
+
             noVideo.setVisibility(View.GONE);
             url = step.getVideoURL();
             exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity());
@@ -125,6 +130,7 @@ public class StepsInformationFragment extends Fragment {
             exoPlayer.prepare(videoSource);
             exoPlayer.setPlayWhenReady(playerStatus);
             exoPlayer.seekTo(playerPosition);
+
         }
 
 
@@ -147,6 +153,25 @@ public class StepsInformationFragment extends Fragment {
             exoPlayer.stop();
             exoPlayer.release();
         }
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

@@ -1,6 +1,7 @@
 package android.example.bakingapp;
 
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,12 +9,13 @@ import android.view.View;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 public class RecipeDetails extends AppCompatActivity {
 
     private Recipes recipes;
+    private boolean mTwoPane;
 
-    /*List<Ingredients> ingredients;
-    List<Steps> steps;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +24,44 @@ public class RecipeDetails extends AppCompatActivity {
 
         recipes = getIntent().getParcelableExtra("recipe");
 
-        /*ingredients = recipes.getIngredients();
-        steps = recipes.getSteps();*/
-
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+
+        if(findViewById(R.id.twoPane) != null){
+
+            mTwoPane = true;
+
+            Bundle bundleOne = new Bundle();
+            bundleOne.putInt("index", 0);
+            bundleOne.putBoolean("mTwoPane", mTwoPane);
+            bundleOne.putParcelableArrayList("steps", (ArrayList<? extends Parcelable>) recipes.getSteps());
+
+            StepsInformationFragment stepsInformationFragment = new StepsInformationFragment();
+            stepsInformationFragment.setArguments(bundleOne);
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.steps_details, stepsInformationFragment)
+                    .commit();
+
+        }else {
+            mTwoPane = false;
+        }
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("recipe", recipes);
+        bundle.putBoolean("mTwoPane", mTwoPane);
 
-        RecipeInformationFragment recipeInformationFragment = new RecipeInformationFragment();
-        recipeInformationFragment.setArguments(bundle);
+        RecipeInformationFragment recipeInformationFragment =
+                (RecipeInformationFragment) fragmentManager.findFragmentByTag("RecipeInformationFragment");
 
-        fragmentManager.beginTransaction()
-                .add(R.id.recipe_details, recipeInformationFragment)
-                .commit();
+        if(recipeInformationFragment == null) {
+
+            recipeInformationFragment = new RecipeInformationFragment();
+            recipeInformationFragment.setArguments(bundle);
+            fragmentManager.beginTransaction()
+                    .add(R.id.recipe_details, recipeInformationFragment,"RecipeInformationFragment")
+                    .commit();
+        }
 
     }
 }

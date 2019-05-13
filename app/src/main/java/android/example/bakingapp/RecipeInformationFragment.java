@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,7 +31,12 @@ public class RecipeInformationFragment extends Fragment implements StepsAdapter.
     private StepsAdapter stepsAdapter;
     private Recipes recipes;
     private Button button;
+    private boolean mTwoPane;
     Context context;
+
+    public RecipeInformationFragment(){
+
+    }
 
     @Nullable
     @Override
@@ -38,11 +44,13 @@ public class RecipeInformationFragment extends Fragment implements StepsAdapter.
 
         View view =inflater.inflate(R.layout.fragment_recipe_information, container, false);
 
+        setRetainInstance(true);
         recycler_view_ingredients = view.findViewById(R.id.recycler_view_ingredients);
         recycler_view_steps = view.findViewById(R.id.recycler_view_steps);
         button = view.findViewById(R.id.widget_button);
 
         recipes = getArguments().getParcelable("recipe");
+        mTwoPane = getArguments().getBoolean("mTwoPane");
 
         ingredients = recipes.getIngredients();
 
@@ -81,9 +89,26 @@ public class RecipeInformationFragment extends Fragment implements StepsAdapter.
 
     @Override
     public void onStepClick(int position) {
-        Intent intent = new Intent(getActivity(), StepsDetails.class);
-        intent.putExtra("position", position);
-        intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
-        startActivity(intent);
+        if(mTwoPane){
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+            bundle.putParcelableArrayList("steps", (ArrayList<? extends Parcelable>) steps);
+            bundle.putBoolean("mTwoPane", mTwoPane);
+
+            FragmentManager fragmentManager = getFragmentManager();
+
+            StepsInformationFragment stepsInformationFragment = new StepsInformationFragment();
+            stepsInformationFragment.setArguments(bundle);
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.steps_details, stepsInformationFragment)
+                    .commit();
+
+        }else {
+            Intent intent = new Intent(getActivity(), StepsDetails.class);
+            intent.putExtra("position", position);
+            intent.putParcelableArrayListExtra("steps", (ArrayList<? extends Parcelable>) steps);
+            startActivity(intent);
+        }
     }
 }

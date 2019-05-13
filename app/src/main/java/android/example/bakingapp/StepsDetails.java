@@ -28,7 +28,8 @@ public class StepsDetails extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        StepsInformationFragment stepsInformationFragment = (StepsInformationFragment) fragmentManager.findFragmentByTag("StepsInformationFragment");
+        StepsInformationFragment stepsInformationFragment =
+                (StepsInformationFragment) fragmentManager.findFragmentByTag("StepsInformationFragment");
 
         if(stepsInformationFragment == null) {
 
