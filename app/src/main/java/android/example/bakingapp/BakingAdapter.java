@@ -46,13 +46,10 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.ItemViewHo
                     .into(itemViewHolder.imageView);
         }
 
-        itemViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, RecipeDetails.class);
-                intent.putExtra("recipe", recipe.get(i));
-                context.startActivity(intent);
-            }
+        itemViewHolder.imageView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, RecipeDetails.class);
+            intent.putExtra("recipe", recipe.get(i));
+            context.startActivity(intent);
         });
 
     }

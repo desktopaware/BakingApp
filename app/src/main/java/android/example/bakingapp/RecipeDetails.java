@@ -22,7 +22,8 @@ public class RecipeDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
-        recipes = getIntent().getParcelableExtra("recipe");
+        if(getIntent() != null)
+            recipes = getIntent().getParcelableExtra("recipe");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

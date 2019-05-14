@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class RecipeInformationFragment extends Fragment implements StepsAdapter.OnStepListener{
 
@@ -66,21 +69,20 @@ public class RecipeInformationFragment extends Fragment implements StepsAdapter.
         recycler_view_steps.setAdapter(stepsAdapter);
         stepsAdapter.notifyDataSetChanged();
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        button.setOnClickListener(view1 -> {
 
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences", getActivity().MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences", getActivity().MODE_PRIVATE);
 
-                Gson g = new Gson();
-                String j = g.toJson(recipes.getIngredients());
+            //helped me https://stackoverflow.com/questions/7057845/save-arraylist-to-sharedpreferences
+            Gson g = new Gson();
+            String j = g.toJson(recipes.getIngredients());
 
-                sharedPreferences.edit().putString("recipeTitle", recipes.getName()).apply();
-                sharedPreferences.edit().putString("recipeIngredients", j).apply();
+            sharedPreferences.edit().putString("recipeTitle", recipes.getName()).apply();
+            sharedPreferences.edit().putString("recipeIngredients", j).apply();
 
-                BakingWidgetProvider.sendRefreshBroadcast(getActivity());
+            //helped me https://www.sitepoint.com/killer-way-to-show-a-list-of-items-in-android-collection-widget/
+            BakingWidgetProvider.sendRefreshBroadcast(getActivity());
 
-            }
         });
 
         return view;
