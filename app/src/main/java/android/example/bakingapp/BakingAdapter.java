@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class BakingAdapter extends RecyclerView.Adapter<BakingAdapter.ItemViewHo
 
         itemViewHolder.recipeName.setText(recipe.get(i).getName());
 
-        if(recipe.get(i).getImage().equals("")){
+        if(TextUtils.isEmpty(recipe.get(i).getImage())){
 
             itemViewHolder.imageView.setImageResource(R.drawable.baking_image);
         }else {

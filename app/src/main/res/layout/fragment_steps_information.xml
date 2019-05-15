@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -46,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="292dp"
+            android:layout_marginTop="23dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:text="Description"
@@ -55,16 +53,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/thumbnail" />
 
         <Button
             android:id="@+id/button_next"
             android:layout_width="104dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="168dp"
-            android:layout_marginEnd="52dp"
-            android:layout_marginRight="52dp"
-            android:text="NEXT"
+            android:layout_marginTop="94dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="16dp"
+            android:text="NEXT STEP"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_step_tv" />
 
@@ -72,12 +72,31 @@
             android:id="@+id/button_back"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginTop="168dp"
-            android:text="BACK"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="87dp"
+            android:layout_marginBottom="16dp"
+            android:text="PREVIOUS STEP"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description_step_tv" />
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="127dp"
+            android:layout_height="104dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="284dp"
+            android:layout_marginEnd="268dp"
+            android:layout_marginRight="268dp"
+            android:layout_marginBottom="23dp"
+            app:layout_constraintBottom_toTopOf="@+id/description_step_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baking_image" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
