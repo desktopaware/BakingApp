@@ -22,13 +22,15 @@ public class RecipeDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if(getIntent() != null)
             recipes = getIntent().getParcelableExtra("recipe");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
 
-        if(findViewById(R.id.twoPane) != null){
+        if(findViewById(R.id.twoPane) != null || findViewById(R.id.twoPane_portrait) != null){
 
             mTwoPane = true;
 

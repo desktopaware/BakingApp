@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -46,6 +47,8 @@ public class RecipeInformationFragment extends Fragment implements StepsAdapter.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view =inflater.inflate(R.layout.fragment_recipe_information, container, false);
+
+        this.setHasOptionsMenu(true);
 
         setRetainInstance(true);
         recycler_view_ingredients = view.findViewById(R.id.recycler_view_ingredients);
@@ -88,6 +91,7 @@ public class RecipeInformationFragment extends Fragment implements StepsAdapter.
         return view;
 
     }
+
 
     @Override
     public void onStepClick(int position) {

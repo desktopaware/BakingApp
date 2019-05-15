@@ -26,8 +26,9 @@
         <service android:name=".ListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <activity android:name=".StepsDetails" />
-        <activity android:name=".RecipeDetails" />
+        <activity android:name=".StepsDetails"/>
+        <activity android:name=".RecipeDetails"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

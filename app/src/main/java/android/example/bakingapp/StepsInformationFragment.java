@@ -145,9 +145,10 @@ public class StepsInformationFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-
-        outState.putBoolean("playerState", exoPlayer.getPlayWhenReady());
-        outState.putLong("playerPosition", exoPlayer.getCurrentPosition());
+        if(exoPlayer != null) {
+            outState.putBoolean("playerState", exoPlayer.getPlayWhenReady());
+            outState.putLong("playerPosition", exoPlayer.getCurrentPosition());
+        }
 
         super.onSaveInstanceState(outState);
     }
