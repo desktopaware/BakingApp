@@ -50,7 +50,9 @@ public class ListWidgetService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-            return ingredient.size();
+            if (ingredient != null) {
+                return ingredient.size();
+            } else return 0;
         }
 
         @Override

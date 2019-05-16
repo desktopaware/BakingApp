@@ -15,13 +15,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
 
@@ -38,10 +43,11 @@ public class StepsInformationFragment extends Fragment {
     private int position, nextPosition, previousPosition;
     private boolean mTwoPane;
     private ImageView thumbnail;
-    int currentWindow;
     boolean playerStatus;
     long playerPosition;
     String url;
+    private int currentWindow;
+
 
     public StepsInformationFragment(){
 
@@ -53,15 +59,20 @@ public class StepsInformationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view =inflater.inflate(R.layout.fragment_steps_information, container, false);
-        setRetainInstance(true);
+
+        //won't save instance?
         if (savedInstanceState != null) {
-            playerStatus = savedInstanceState.getBoolean("playerState");
+
             playerPosition = savedInstanceState.getLong("playerPosition");
+            currentWindow = savedInstanceState.getInt("currentWindow");
+            playerStatus = savedInstanceState.getBoolean("playerStatus");
 
         }
         else {
+
             playerStatus = true;
             playerPosition = 0;
+
         }
 
         noVideo = view.findViewById(R.id.noVideo);
@@ -113,9 +124,10 @@ public class StepsInformationFragment extends Fragment {
             playerView.setVisibility(View.GONE);
 
         }else {
+            url = step.getVideoURL();
 
             noVideo.setVisibility(View.GONE);
-            url = step.getVideoURL();
+
             exoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity());
             playerView.setPlayer(exoPlayer);
             Uri uri = Uri.parse(url);
@@ -129,7 +141,7 @@ public class StepsInformationFragment extends Fragment {
 
             exoPlayer.prepare(videoSource);
             exoPlayer.setPlayWhenReady(playerStatus);
-            exoPlayer.seekTo(playerPosition);
+            exoPlayer.seekTo(currentWindow, playerPosition);
 
         }
 
@@ -143,15 +155,6 @@ public class StepsInformationFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        if(exoPlayer != null) {
-            outState.putBoolean("playerState", exoPlayer.getPlayWhenReady());
-            outState.putLong("playerPosition", exoPlayer.getCurrentPosition());
-        }
-
-        super.onSaveInstanceState(outState);
-    }
     private void releasePlayer() {
         if (exoPlayer != null) {
             // save the player state before releasing its resources
@@ -163,14 +166,24 @@ public class StepsInformationFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(exoPlayer != null) {
+            outState.putLong("playerPosition", playerPosition);
+            outState.putInt("currentWindow", currentWindow);
+            outState.putBoolean("playerStatus", playerStatus);
 
-        @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(exoPlayer != null){
-            exoPlayer.stop();
-            exoPlayer.release();
         }
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -188,4 +201,7 @@ public class StepsInformationFragment extends Fragment {
             releasePlayer();
         }
     }
+
 }
+
+

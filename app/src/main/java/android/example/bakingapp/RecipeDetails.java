@@ -35,7 +35,7 @@ public class RecipeDetails extends AppCompatActivity {
             mTwoPane = true;
 
             Bundle bundleOne = new Bundle();
-            bundleOne.putInt("index", 0);
+            bundleOne.putInt("position", 0);
             bundleOne.putBoolean("mTwoPane", mTwoPane);
             bundleOne.putParcelableArrayList("steps", (ArrayList<? extends Parcelable>) recipes.getSteps());
 
@@ -43,7 +43,7 @@ public class RecipeDetails extends AppCompatActivity {
             stepsInformationFragment.setArguments(bundleOne);
 
             fragmentManager.beginTransaction()
-                    .add(R.id.steps_details, stepsInformationFragment)
+                    .replace(R.id.steps_details, stepsInformationFragment)
                     .commit();
 
         }else {
